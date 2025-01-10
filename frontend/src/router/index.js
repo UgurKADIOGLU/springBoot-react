@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home/Index";
 import Singup from "../pages/Singup/Index";
 import App from "../App";
+import Activation from "../pages/activation";
 
 export default createBrowserRouter([
   {
@@ -17,6 +18,10 @@ export default createBrowserRouter([
             path: "/singup",
             Component: Singup,
           },
+          {
+            path: "/activation",
+            Component: Activation,
+          }
     ]
   }
 ]);
