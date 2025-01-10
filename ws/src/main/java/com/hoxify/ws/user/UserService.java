@@ -2,6 +2,7 @@ package com.hoxify.ws.user;
 
 import com.hoxify.ws.email.EmailService;
 import com.hoxify.ws.user.exception.ActivationNotificationEx;
+import com.hoxify.ws.user.exception.InvalidTokenException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -32,11 +33,20 @@ public class UserService {
             user.setActivationToken(UUID.randomUUID().toString());
             userRepository.saveAndFlush(user);
             emailService.sendActivaitonEmail(user.getEmail(), user.getActivationToken());
-        }catch (MailException ex){
+        } catch (MailException ex) {
             throw new ActivationNotificationEx();
         }
 
     }
 
 
+    public void activateUser(String token) {
+        User inDB = userRepository.findByActivationToken(token);
+        if (inDB == null) {
+            throw new InvalidTokenException();
+        }
+        inDB.setActive(true);
+        inDB.setActivationToken(null);
+        userRepository.save(inDB);
+    }
 }

@@ -19,7 +19,7 @@ export default createBrowserRouter([
             Component: Singup,
           },
           {
-            path: "/activation",
+            path: "/activation/:token",
             Component: Activation,
           }
     ]
