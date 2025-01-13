@@ -32,7 +32,7 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(user.password));
             user.setActivationToken(UUID.randomUUID().toString());
             userRepository.saveAndFlush(user);
-            emailService.sendActivaitonEmail(user.getEmail(), user.getActivationToken());
+            //emailService.sendActivaitonEmail(user.getEmail(), user.getActivationToken());
         } catch (MailException ex) {
             throw new ActivationNotificationEx();
         }
