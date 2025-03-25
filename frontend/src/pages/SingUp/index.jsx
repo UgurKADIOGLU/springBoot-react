@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState } from "react";
+import { singUp } from "./api";
 
 export function SingUp() {
   const [username, setUserName] = useState();
@@ -7,6 +7,7 @@ export function SingUp() {
   const [password, setPassword] = useState();
   const [repassword, setRepassword] = useState();
   const [apiProgress,setApiProgress]=useState(false);
+  const[successMessage,setSuccessMessage]=useState();
 
   const onChangeUserName = (event) => {
     setUserName(event.target.value);
@@ -22,14 +23,23 @@ export function SingUp() {
 
   console.log(username);
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
+    setSuccessMessage();
     setApiProgress(true);
     event.preventDefault();
-    axios.post("/api/v1/users", {
+    try{
+     const response=await singUp({
       username,
       email,
       password,
-    });
+    })
+    setSuccessMessage(response.data.message) 
+    }catch{
+      
+    }
+    finally{
+      setApiProgress(false)
+    }  
   };
 
   return (
@@ -85,11 +95,12 @@ export function SingUp() {
         </div>
 
         <div className="text-center card-footer">
+          {successMessage && <div className="alert alert-success">{successMessage}</div>}
           <button
             disabled={apiProgress || (!password || password !== repassword)}
             className="btn btn-primary"
           >
-            Sing Up
+            Sing Up {apiProgress && <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>}
           </button>
         </div>
       </form>
