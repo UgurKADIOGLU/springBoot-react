@@ -1,5 +1,6 @@
 package com.isg.ws.calisan;
 
+import com.isg.ws.calisan.dto.DtoCalisan;
 import com.isg.ws.egitim.IsGuvenligiEgitimi;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,5 +28,15 @@ public class Calisan {
             inverseJoinColumns = @JoinColumn(name = "egitim_id")
     )
     private List<IsGuvenligiEgitimi> egitimler;
+
+    public DtoCalisan toDTO() {
+        return new DtoCalisan(
+                this.id,
+                this.ad,
+                this.pozisyon,
+                this.departman,
+                this.eposta
+        );
+    }
     // Getters & Setters
 }

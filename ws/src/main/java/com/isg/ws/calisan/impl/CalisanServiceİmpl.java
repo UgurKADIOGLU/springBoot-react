@@ -7,17 +7,26 @@ import com.isg.ws.calisan.i.ICalisanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CalisanServiceİmpl implements ICalisanService {
 
     @Autowired
     CalisanRepository calisanRepository;
 
-    private DtoCalisan dtoCalisan = new DtoCalisan();
-
     @Override
     public DtoCalisan save(Calisan calisan) {
-        Calisan savedCalisan=calisanRepository.save(calisan);
-        return dtoCalisan.toDTO(calisan);
+        return calisanRepository.save(calisan).toDTO();
+    }
+
+    @Override
+    public List<Calisan> findAll() {
+        return calisanRepository.findAll();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        calisanRepository.deleteById(id);
     }
 }
