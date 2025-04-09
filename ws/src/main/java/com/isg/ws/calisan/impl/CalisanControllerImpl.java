@@ -16,6 +16,7 @@ public class CalisanControllerImpl implements ICalisanController {
     @Autowired
     ICalisanService calisanService;
 
+    @CrossOrigin
     @Override
     @PostMapping("/kaydet")
     public DtoCalisan save(@RequestBody Calisan calisan) {
