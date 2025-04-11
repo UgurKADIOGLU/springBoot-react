@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState } from "react";
+import { calisan, calisanGetir } from "./api";
 
 export default function Calisan() {
   const [ad, setAd] = useState();
@@ -7,23 +7,38 @@ export default function Calisan() {
   const [departman, setDepartman] = useState();
   const [eposta, setEposta] = useState();
   const [calisanlar, setCalisanlar] = useState([]);
-  const [message, setMessage] = useState([]);
+  const [apiProgress, setApiProgress] = useState(false);
   const [showList, setShowList] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    axios.post("/calisanlar/kaydet", { ad, pozisyon, departman, eposta });
+  
+    setSuccessMessage(); // Önceki mesajı temizle (isteğe bağlı)
+    setApiProgress(true);
+  
+    try {
+      const response = await calisan({ ad, pozisyon, departman, eposta });
+      setSuccessMessage(response.data.message);
+    } catch (error) {
+      // Hata mesajı göstermek istersen buraya ekleyebilirsin
+      console.error("Hata oluştu:", error);
+    } finally {
+      setApiProgress(false);
+    }
   };
 
   const getAll = async () => {
     try {
-      const response = await axios.get("/calisanlar/getir");
+      const response = await calisanGetir();
       setCalisanlar(response.data);
       setShowList(true);
 
       // hata varsa temizle
     } catch (err) {
       console.error("Veri alınırken hata oluştu:", err);
+    } finally {
+      setApiProgress(false);
     }
   };
 
@@ -75,14 +90,35 @@ export default function Calisan() {
             />
           </div>
           <div className="mb-3">
-            <button className="btn btn-primary" disabled={!ad || !pozisyon || !departman || !eposta}>
+            <button
+              className="btn btn-primary"
+              disabled={
+                apiProgress || !ad || !pozisyon || !departman || !eposta
+              }
+            >
+              {apiProgress && (
+                <span
+                  className="spinner-border spinner-border-sm "
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              )}
               Kaydet
             </button>
+          </div>
+          <div className="mb3">
+            {successMessage && (
+              <div className="alert alert-success text-center">
+                {successMessage}
+              </div>
+            )}
           </div>
         </form>
 
         <div className="mb-3">
-          <button className="btn btn-primary" onClick={getAll}>Calisanlari listele</button>
+          <button className="btn btn-primary" onClick={getAll}>
+            Calisanlari listele
+          </button>
         </div>
         {showList && (
           <div>

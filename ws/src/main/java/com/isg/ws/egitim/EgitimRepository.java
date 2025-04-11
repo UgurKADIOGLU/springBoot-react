@@ -1,4 +1,6 @@
 package com.isg.ws.egitim;
 
-public interface EgitimRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EgitimRepository extends JpaRepository<IsGuvenligiEgitimi,Long> {
 }

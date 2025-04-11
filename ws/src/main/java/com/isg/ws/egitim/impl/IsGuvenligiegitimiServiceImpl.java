@@ -1,4 +1,6 @@
-package com.isg.ws.egitim;
+package com.isg.ws.egitim.impl;
 
-public class IsGuvenligiegitimiServiceImpl {
+import com.isg.ws.egitim.i.IısGuvenligiegitimiService;
+
+public class IsGuvenligiegitimiServiceImpl implements IısGuvenligiegitimiService {
 }
