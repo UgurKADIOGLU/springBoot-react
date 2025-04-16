@@ -13,7 +13,8 @@ export default defineConfig({
   },
   server:{
     proxy:{
-      '/calisanlar':'http://localhost:8080'
+      '/calisanlar':'http://localhost:8080',
+      '/egitim':'http://localhost:8080'
     }
   }
 })

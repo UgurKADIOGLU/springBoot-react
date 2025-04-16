@@ -1,16 +1,25 @@
 import axios from "axios";
 import { useState } from "react";
 import { egitim } from "./api";
+import Datetime from "react-datetime";
+import "react-datetime/css/react-datetime.css";
 
 export function Egitim(){
     const [egitimAdi, setEgitimAdi] = useState();
       const [egitimTarihi, setEgitimTarihi] = useState();
       const [calisanlar, setCalisanlar] = useState();
      
-      const [egitimler, setegitimler] = useState([]);
+    
       const [apiProgress, setApiProgress] = useState(false);
       const [showList, setShowList] = useState(false);
       const [successMessage, setSuccessMessage] = useState(false);
+      const [value, setValue] = useState(new Date());
+
+      const handleChange = (value) => {
+        // Değer formatını string olarak almak istersen:
+        const formattedDate = value.format('YYYY-MM-DD');
+        setEgitimTarihi(formattedDate);
+      };
     
       const onSubmit = async (event) => {
         event.preventDefault();
@@ -59,16 +68,16 @@ export function Egitim(){
               className="form-control"
             />
           </div>
-          <div className="mb-3">
+          {/* <div className="mb-3">
             <label htmlFor="egitimTarihi" className="form-label">
               Eğitim Tarihi
             </label>
             <input
               id="egitimTarihi"
-              onChange={(event) => setEgitimTarihi(event.target.value)}
+              onChange={(event) => setValue(event.target.value)}
               className="form-control"
             />
-          </div>
+          </div> */}
           <div className="mb-3">
             <label htmlFor="calisanlar" className="form-label">
               Çalışanlar
@@ -79,12 +88,21 @@ export function Egitim(){
               className="form-control"
             />
           </div>
-          
+          <div className="container mt-3">
+      <h5>Sadece Tarih Seç</h5>
+      <Datetime
+        onChange={handleChange}
+        timeFormat={false}
+        dateFormat="YYYY-MM-DD"
+        value={egitimTarihi}
+      />
+      <p>Seçilen Tarih: {egitimTarihi}</p>
+    </div>
           <div className="mb-3">
             <button
               className="btn btn-primary"
               disabled={
-                apiProgress || !egitimAdi || !egitimTarihi || !calisanlar 
+                apiProgress || !egitimAdi  
               }
             >
               {apiProgress && (

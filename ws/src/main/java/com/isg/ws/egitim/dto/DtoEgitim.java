@@ -1,6 +1,5 @@
-package com.isg.ws.egitim;
+package com.isg.ws.egitim.dto;
 
-import com.isg.ws.calisan.dto.DtoCalisan;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class DtoEgitim {
     private String egitimAdi;
-    private String egitimTarihi;
+    private LocalDate egitimTarihi;
 
 
 }
