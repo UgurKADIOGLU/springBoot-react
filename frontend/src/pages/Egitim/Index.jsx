@@ -8,15 +8,15 @@ export function Egitim(){
     const [egitimAdi, setEgitimAdi] = useState();
       const [egitimTarihi, setEgitimTarihi] = useState();
       const [calisanlar, setCalisanlar] = useState();
+      const[egitimler,setEgitimler]=useState([]);
      
     
       const [apiProgress, setApiProgress] = useState(false);
       const [showList, setShowList] = useState(false);
       const [successMessage, setSuccessMessage] = useState(false);
-      const [value, setValue] = useState(new Date());
+     
 
-      const handleChange = (value) => {
-        // Değer formatını string olarak almak istersen:
+      const handleChange = (value) => {        
         const formattedDate = value.format('YYYY-MM-DD');
         setEgitimTarihi(formattedDate);
       };
@@ -41,7 +41,7 @@ export function Egitim(){
       const getAll = async () => {
         try {
           const response = await axios.get("/egitim/getir");
-          setCalisanlar(response.data);
+          setEgitimler(response.data);
           setShowList(true);
     
           // hata varsa temizle
@@ -68,16 +68,7 @@ export function Egitim(){
               className="form-control"
             />
           </div>
-          {/* <div className="mb-3">
-            <label htmlFor="egitimTarihi" className="form-label">
-              Eğitim Tarihi
-            </label>
-            <input
-              id="egitimTarihi"
-              onChange={(event) => setValue(event.target.value)}
-              className="form-control"
-            />
-          </div> */}
+          
           <div className="mb-3">
             <label htmlFor="calisanlar" className="form-label">
               Çalışanlar
@@ -88,16 +79,17 @@ export function Egitim(){
               className="form-control"
             />
           </div>
-          <div className="container mt-3">
-      <h5>Sadece Tarih Seç</h5>
+          <div className="mb-3">
+          <label htmlFor="calisanlar" className="form-label">
+              Tarih Seç
+            </label>
       <Datetime
         onChange={handleChange}
         timeFormat={false}
         dateFormat="YYYY-MM-DD"
         value={egitimTarihi}
       />
-      <p>Seçilen Tarih: {egitimTarihi}</p>
-    </div>
+         </div>
           <div className="mb-3">
             <button
               className="btn btn-primary"
@@ -133,9 +125,9 @@ export function Egitim(){
           <div>
             <h2>Eğitimler</h2>
             <ul>
-              {calisanlar.map((calisan) => (
-                <li key={calisan.id}>
-                  {calisan.ad} {calisan.departman}
+              {egitimler.map((egitim) => (
+                <li key={egitim.id}>
+                  {egitim.egitimAdi} {egitim.egitimTarihi}
                 </li>
               ))}
             </ul>

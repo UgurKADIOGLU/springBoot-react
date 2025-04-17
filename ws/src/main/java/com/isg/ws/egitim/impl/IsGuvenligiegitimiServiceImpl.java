@@ -7,6 +7,8 @@ import com.isg.ws.egitim.i.IısGuvenligiegitimiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class IsGuvenligiegitimiServiceImpl implements IısGuvenligiegitimiService {
     @Autowired
@@ -20,5 +22,10 @@ public class IsGuvenligiegitimiServiceImpl implements IısGuvenligiegitimiServic
          egitimRepository.save(isGuvenligiEgitimi);
          return dtoEgitim;
 
+    }
+
+    @Override
+    public List<IsGuvenligiEgitimi> findAll() {
+        return egitimRepository.findAll();
     }
 }
