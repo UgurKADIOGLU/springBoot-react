@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { egitim } from "./api";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
@@ -7,14 +7,34 @@ import "react-datetime/css/react-datetime.css";
 export function Egitim(){
     const [egitimAdi, setEgitimAdi] = useState();
       const [egitimTarihi, setEgitimTarihi] = useState();
-      const [calisanlar, setCalisanlar] = useState();
+      const [calisanlar, setCalisanlar] = useState([]); //calışanlar listesini kayıt ediyor
       const[egitimler,setEgitimler]=useState([]);
-     
-    
+          
       const [apiProgress, setApiProgress] = useState(false);
       const [showList, setShowList] = useState(false);
       const [successMessage, setSuccessMessage] = useState(false);
-     
+      const [calisanlarList, setCalisanlarList] = useState([]); //Use efect ile çalışanların listesini çekiyor
+
+      useEffect(() => {
+        axios.get("/calisanlar/getir")
+          .then(res => {
+            setCalisanlarList(res.data);
+            console.log("API cevabı:", res.data);
+          })
+          .catch(err => {
+            console.error("Çalışanlar alınamadı:", err);
+          });
+      }, []);
+
+      const handleCheckboxChange = (id) => {
+        setCalisanlar((prevState) => {
+          if (prevState.includes(id)) {
+            return prevState.filter((calisanId) => calisanId !== id);
+          } else {
+            return [...prevState, id];
+          }
+        });
+      };
 
       const handleChange = (value) => {        
         const formattedDate = value.format('YYYY-MM-DD');
@@ -69,16 +89,22 @@ export function Egitim(){
             />
           </div>
           
-          <div className="mb-3">
-            <label htmlFor="calisanlar" className="form-label">
-              Çalışanlar
-            </label>
+          <div>
+      <h2>Çalışanlar</h2>
+      {calisanlarList?.map(calisan => (
+        <div key={calisan.id}>
+          <label>
             <input
-              id="calisanlar"
-              onChange={(event) => setCalisanlar(event.target.value)}
-              className="form-control"
+              type="checkbox"
+              checked={calisanlar.includes(calisan.id)} // Seçili mi kontrol et
+              onChange={() => handleCheckboxChange(calisan.id)} // Değiştirildiğinde handle et
             />
-          </div>
+            {calisan.ad} {/* Çalışanın adı */}
+          </label>
+        </div>
+      ))}
+    </div>
+          
           <div className="mb-3">
           <label htmlFor="calisanlar" className="form-label">
               Tarih Seç
@@ -121,18 +147,25 @@ export function Egitim(){
             Eğitimleri Listele
           </button>
         </div>
-        {showList && (
-          <div>
-            <h2>Eğitimler</h2>
-            <ul>
-              {egitimler.map((egitim) => (
-                <li key={egitim.id}>
-                  {egitim.egitimAdi} {egitim.egitimTarihi}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <div>
+      <h2>Kayıtlı Eğitimler</h2>
+      {egitimler.map((egitim) => (
+        <div key={egitim.id} style={{ border: "1px solid #ccc", padding: "10px", marginBottom: "10px" }}>
+          <h3>{egitim.egitimAdi}</h3>
+          <p>Tarih: {egitim.egitimTarihi}</p>
+          <h4>Katılan Çalışanlar:</h4>
+          <ul>
+            {egitim.calisanlar && egitim.calisanlar.length > 0 ? (
+              egitim.calisanlar.map(c => (
+                <li key={c.id}>{c.ad}</li>
+              ))
+            ) : (
+              <li>Katılım yok</li>
+            )}
+          </ul>
+        </div>
+      ))}
+    </div>
       </div>
         </>
     )

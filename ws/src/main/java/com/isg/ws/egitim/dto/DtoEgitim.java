@@ -1,10 +1,12 @@
 package com.isg.ws.egitim.dto;
 
+import com.isg.ws.calisan.Calisan;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 public class DtoEgitim {
     private String egitimAdi;
     private LocalDate egitimTarihi;
+    private List<Long> calisanlar;
 
 
 }

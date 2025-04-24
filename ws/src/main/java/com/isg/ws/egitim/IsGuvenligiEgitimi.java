@@ -24,10 +24,5 @@ public class IsGuvenligiEgitimi {
     @ManyToMany(mappedBy = "egitimler")
     private List<Calisan> calisanlar;
 
-    public DtoEgitim toDTO() {
-        return new DtoEgitim(
-                this.egitimAdi,
-                this.egitimTarihi
-        );
-    }
+
 }

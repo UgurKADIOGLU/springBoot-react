@@ -1,5 +1,7 @@
 package com.isg.ws.egitim.impl;
 
+import com.isg.ws.calisan.Calisan;
+import com.isg.ws.calisan.CalisanRepository;
 import com.isg.ws.egitim.dto.DtoEgitim;
 import com.isg.ws.egitim.EgitimRepository;
 import com.isg.ws.egitim.IsGuvenligiEgitimi;
@@ -13,14 +15,22 @@ import java.util.List;
 public class IsGuvenligiegitimiServiceImpl implements IısGuvenligiegitimiService {
     @Autowired
     EgitimRepository egitimRepository;
+
+    @Autowired
+    CalisanRepository calisanRepository;
+
     @Override
-    public DtoEgitim save(DtoEgitim dtoEgitim) {
+    public IsGuvenligiEgitimi save(DtoEgitim dtoEgitim) {
         IsGuvenligiEgitimi isGuvenligiEgitimi=new IsGuvenligiEgitimi();
         isGuvenligiEgitimi.setEgitimAdi(dtoEgitim.getEgitimAdi());
         isGuvenligiEgitimi.setEgitimTarihi(dtoEgitim.getEgitimTarihi());
+        List<Calisan> calisanlar = calisanRepository.findAllById(dtoEgitim.getCalisanlar());
 
-         egitimRepository.save(isGuvenligiEgitimi);
-         return dtoEgitim;
+        for (Calisan calisan : calisanlar) {
+            calisan.getEgitimler().add(isGuvenligiEgitimi);
+        }
+
+         return egitimRepository.save(isGuvenligiEgitimi);
 
     }
 

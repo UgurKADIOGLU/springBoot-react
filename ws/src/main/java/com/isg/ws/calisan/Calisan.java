@@ -1,5 +1,6 @@
 package com.isg.ws.calisan;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.isg.ws.calisan.dto.DtoCalisan;
 import com.isg.ws.egitim.IsGuvenligiEgitimi;
 import jakarta.persistence.*;
@@ -22,11 +23,11 @@ public class Calisan {
     private String departman;
     private String eposta;
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "calisan_egitim",
             joinColumns = @JoinColumn(name = "calisan_id"),
-            inverseJoinColumns = @JoinColumn(name = "egitim_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "egitim_id"))
     private List<IsGuvenligiEgitimi> egitimler;
 
     public DtoCalisan toDTO() {
