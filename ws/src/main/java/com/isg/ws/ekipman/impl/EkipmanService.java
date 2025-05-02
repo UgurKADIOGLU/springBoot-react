@@ -2,6 +2,7 @@ package com.isg.ws.ekipman.impl;
 
 import com.isg.ws.ekipman.Ekipman;
 import com.isg.ws.ekipman.EkipmanRepository;
+import com.isg.ws.ekipman.dto.EkipmanUpdateDTO;
 import com.isg.ws.ekipman.i.IEkipmanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,16 @@ public class EkipmanService implements IEkipmanService {
     @Override
     public void deleteById(Long id) {
         ekipmanRepository.deleteById(id);
+    }
+
+    @Override
+    public Ekipman update(EkipmanUpdateDTO dto) {
+        Ekipman mevcut = findById(dto.getId());
+
+        mevcut.setEkipmanAdi(dto.getEkipmanAdi());
+        mevcut.setSeriNumarasi(dto.getSeriNumarasi());
+        mevcut.setSonMuayeneTarihi(dto.getSonMuayeneTarihi());
+
+        return ekipmanRepository.save(mevcut);
     }
 }
