@@ -11,4 +11,6 @@ public DtoCalisan save(Calisan calisan);
     List<Calisan> findAll();
 
     void deleteById(Long id);
+
+    Calisan findById(Long id);
 }

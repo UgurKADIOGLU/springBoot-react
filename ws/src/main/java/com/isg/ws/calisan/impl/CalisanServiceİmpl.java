@@ -29,4 +29,11 @@ public class CalisanServiceİmpl implements ICalisanService {
     public void deleteById(Long id) {
         calisanRepository.deleteById(id);
     }
+
+    @Override
+    public Calisan findById(Long id) {
+        return calisanRepository.findById(id).orElse(null);
+    }
+
+
 }

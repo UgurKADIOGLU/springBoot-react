@@ -127,7 +127,7 @@ export default function Ekipman() {
               className="form-control"
             />
           </div>
-          <div className="text-center">
+          <div className="text-center mb-3">
             <button type="submit" className="btn btn-primary me-2">
               Kaydet
             </button>
