@@ -1,4 +1,4 @@
-package com.isg.ws.calisan;
+package com.isg.ws.calisan.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
