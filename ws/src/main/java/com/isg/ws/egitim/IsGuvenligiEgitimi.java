@@ -1,7 +1,7 @@
 package com.isg.ws.egitim;
 
 import com.isg.ws.calisan.Calisan;
-import com.isg.ws.egitim.dto.DtoEgitim;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
